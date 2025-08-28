@@ -2,3 +2,4 @@ logs/
 .streamlit/
 config/
 plugins/
+*.pyc
