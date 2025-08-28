@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: my_store
+    description: A clone of data from the redshift database
+    database: dev
+    schema: public
+    tables:
+      - name: customers
+        description: A customer table containing info about customers
+        columns:
+          - name: customer_id
+            description: Primary Key
+            tests:
+              - unique
+              - not_null
+      - name: items
+        description: A table containing information about items
+        columns:
+          - name: item_id
+            description: Primary Key
+            tests:
+              - unique
+              - not_null
+      - name: datetable
+        description: A table containing information about dates of transaction
+        columns:
+          - name: date_id
+            description: Primary Key
+            tests:
+              - unique
+              - not_null
+      - name: orders
+        description: A table containing information about orders
+        columns:
+          - name: order_id
+            description: Primary Key
+            tests:
+              - unique
+              - not_null
