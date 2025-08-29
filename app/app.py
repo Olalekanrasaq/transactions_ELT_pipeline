@@ -41,9 +41,20 @@ def load_fact_table():
     df = pd.DataFrame(result.fetchall(), columns=result.keys())
     return df
 
+@st.cache_data(ttl=3600)
+def load_customers_table():
+    conn = get_connection(connection_string)
+    query = text("SELECT * FROM public.customers ORDER BY customer_id;")
+    result = conn.execute(query)
+    df = pd.DataFrame(result.fetchall(), columns=result.keys())
+    return df
+
+df = load_fact_table()
+cus_df = load_customers_table()
+
 
 # Sidebar inputs for DB credentials
-st.sidebar.header("Olak Consult Enterprise")
+st.sidebar.header(":chart_with_upwards_trend: Olak Enterprise")
 
 sel = st.sidebar.selectbox("Menu", ["Sales dashboard", "Transaction table", "Customers Information"])
 
@@ -51,7 +62,6 @@ if sel == "Sales dashboard":
     col1, col2, col3 = st.columns(3, gap="medium")
     with col1:
         with st.container(border=True):
-            df = load_fact_table()
             total_rev = float(df["amount"].sum())
             st.metric(":moneybag: **Total Sales (USD)**", value=f"{total_rev:,.2f}")
 
@@ -89,8 +99,28 @@ if sel == "Sales dashboard":
 
 if sel == "Transaction table":
     try:
-        df = load_fact_table()
         st.caption("**:chart: Most recent transactions**")
         st.dataframe(df.head(20))
+    except Exception as e:
+        st.error(f"Error connecting to Redshift or executing query: {e}")
+
+if sel == "Customers Information":
+    try:
+        cus_col1, cus_col2, cus_col3 = st.columns(3, gap="small")
+        with cus_col1:
+            with st.container(border=True):
+                no_customers = len(cus_df)
+                st.metric(":adult: **No of Customers**", value=f"{no_customers:,.0f}")
+        with cus_col2:
+            with st.container(border=True):
+                no_active_customers = len(df["customer_id"].unique())
+                st.metric(":adult: **Active Customers**", value=f"{no_active_customers:,.0f}")
+        with cus_col3:
+            with st.container(border=True):
+                inactive_customers = no_customers - no_active_customers
+                st.metric(":adult: **Inactive Customers**", value=f"{inactive_customers:,.0f}")
+        
+        st.caption("**:adult: Customers Information**")
+        st.dataframe(cus_df)
     except Exception as e:
         st.error(f"Error connecting to Redshift or executing query: {e}")

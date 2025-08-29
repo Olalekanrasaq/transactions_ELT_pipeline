@@ -7,7 +7,7 @@ fake = Faker()
 
 def create_customers_data(ti, csv_path):
     customers = []
-    for i in range(1, 50):
+    for i in range(1, 51):
         customer = {}
         customer["customer_id"] = i
         customer["first_name"] = fake.first_name()
