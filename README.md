@@ -32,4 +32,4 @@ The workflow of the project is orchestrated using a custom Apache airflow image 
 
 ### Containerization
 
-The project is facilitated with docker and git.
+The project is facilitated with docker and git. The app folder of this repo contains the streamlit app, dockerfile for building the streamlit image, and requirements text file. In the dags folder, we have the DAG file, the python files containing the data ingestion functions. Also, the dbt folder is present in the dag folder. The dbt folder contain the dbt models and tests for the data transformation.
