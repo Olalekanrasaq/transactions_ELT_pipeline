@@ -8,7 +8,7 @@ The pipeline make use of batch processing. Transactions data accumulated over a 
 
 ### Data Ingestion
 
-This is a simulated project. The transaction data are generated using Faker library in python. The data are in four categories; customers data, items data, dates, and orders. This four data are generated with faker and are stored in csv formats. The csv files are then ingested into AWS S3 data lake. The ingestion of the generated csv files are scheduled to be ingested into S3 every 24hours.
+This is a simulated project. The transaction data are generated using Faker library in python. The data are in four categories; customers data, items data, dates, and orders. This four data are generated with faker and are stored in csv formats. The csv files are then ingested into AWS S3 data lake. The generated csv files are scheduled to be ingested into S3 every 24hours.
 
 ### Data Loading
 
